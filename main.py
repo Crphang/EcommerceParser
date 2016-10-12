@@ -22,7 +22,12 @@ def parse_amazon(html_text):
 #Output: "url,name,price" (if successful)
 #        "error" (if fail) 
 def parse_ebay(html_text):
-    return "error"
+	soup = BeautifulSoup(open("Untitled Document"))
+	span = soup.find_all('span', attrs={'id':'prcIsum'})[0]
+	name = soup.find_all('h1', attrs={'id':'itTitle')[0]
+	if (len(name.contents) < 2 or len(span.contents) < 1)
+		return "error"
+	return name.contents[1] + "," + span.contents[0]
 
 if __name__ == "__main__":
     if (len(sys.argv) < 2):
