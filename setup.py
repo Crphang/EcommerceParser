@@ -9,7 +9,7 @@ setup(name='EcommerceParser',
       author_email='chunrong@u.nus.edu',
       license='MIT',
       install_requires=[
-          'beautifulsoup4',
+          'beautifulsoup4'
       ],
       zip_safe=False
      )
