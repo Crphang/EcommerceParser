@@ -1,0 +1,7 @@
+setup.py
+EcommerceParser.egg-info/PKG-INFO
+EcommerceParser.egg-info/SOURCES.txt
+EcommerceParser.egg-info/dependency_links.txt
+EcommerceParser.egg-info/not-zip-safe
+EcommerceParser.egg-info/requires.txt
+EcommerceParser.egg-info/top_level.txt
