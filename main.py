@@ -54,7 +54,7 @@ def parse_amazon(html_text):
 		mean = (float(firstVal)+float(secondVal))/2.0
 		# return format = name, range, mean
 		# return example: name, 40.00 - 60.00, 50.00
-	    return name + "," + firstVal + "-" + secondVal + "," + mean
+	    	return name + "," + firstVal + "-" + secondVal + "," + mean
 
 
 
@@ -64,7 +64,7 @@ def parse_amazon(html_text):
 def parse_ebay(html_text):
 	soup = BeautifulSoup(open("Untitled Document"))
 	span = soup.find_all('span', attrs={'id':'prcIsum'})[0]
-	name = soup.find_all('h1', attrs={'id':'itemTitle')[0]
+	name = soup.find_all('h1', attrs={'id':'itemTitle'})[0]
 	if (len(name.contents) < 2 or len(span.contents) < 1):
 		return "error"
 	return name.contents[1] + "," + span.contents[0]
