@@ -65,9 +65,10 @@ def parse_ebay(html_text):
 	soup = BeautifulSoup(open("Untitled Document"))
 	span = soup.find_all('span', attrs={'id':'prcIsum'})[0]
 	name = soup.find_all('h1', attrs={'id':'itemTitle'})[0]
+	img = soup.findAll('img', {'id':'icImg'})[0]
 	if (len(name.contents) < 2 or len(span.contents) < 1):
 		return "error"
-	return name.contents[1] + "," + span.contents[0]
+	return name.contents[1] + "," img.get('src') + "," + span.contents[0] + "-" + span.contents[0] + "," + mean
 
 if __name__ == "__main__":
     if (len(sys.argv) < 2):
@@ -79,6 +80,7 @@ if __name__ == "__main__":
         for line in sys.stdin:
             html_array = line.split("|urldelimit|")
             data = parse(html_array[0], html_array[1])
+	    print(data)
             if (data == "error"):
                 continue
             else:
