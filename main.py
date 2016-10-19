@@ -13,7 +13,7 @@ def parse(base_url, html_text):
 
 
 #Input: HTML Text
-#Output: "url,name,price" (if successful)
+#Output: "url,name,image,price,mean" (if successful)
 #        "error" (if fail)         
 def parse_amazon(html_text):
 	soup = BeautifulSoup(open("script.html")) # need to change
@@ -23,6 +23,12 @@ def parse_amazon(html_text):
 	text = text.replace(":", "|")
 	name = text.split('|')
 	name = name[1].strip()
+
+	# find image
+	seivedImage = soup.findAll('img', {"data-a-dynamic-image":True} ) 
+	img = seivedImage[0]['data-a-dynamic-image']
+	end = img.split('"')
+	img = end[1]
 
 	# find price
 	seivedSpan =soup.find_all('span', attrs={'id':'miniATF_price'})
@@ -42,8 +48,8 @@ def parse_amazon(html_text):
 		firstVal = (firstVal.split('$'))[1] # extract the numbers
 		mean = float(firstVal)
 		# return format = name, value, mean
-		# example: name, 43.00, 43.00		
-		return name + "," + firstVal + "," + firstVal
+		# example: name, image, 43.00, 43.00		
+		return name + "," +img + "," + firstVal + "," + firstVal
 
 	# range of prices
 	else:
@@ -53,9 +59,8 @@ def parse_amazon(html_text):
 		secondVal = (secondVal.split('$'))[1]
 		mean = (float(firstVal)+float(secondVal))/2.0
 		# return format = name, range, mean
-		# return example: name, 40.00 - 60.00, 50.00
-	    	return name + "," + firstVal + "-" + secondVal + "," + mean
-
+		# return example: name, image, 40.00 - 60.00, 50.00
+	    	return name +"," + img "," + firstVal + "-" + secondVal + "," + mean
 
 
 #Input: HTML Text

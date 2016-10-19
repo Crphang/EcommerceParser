@@ -24,6 +24,12 @@ def parse_amazon(html_text):
 	name = text.split('|')
 	name = name[1].strip()
 
+	# find image
+	seivedImage = soup.findAll('img', {"data-a-dynamic-image":True} ) 
+	img = seivedImage[0]['data-a-dynamic-image']
+	end = img.split('"')
+	img = end[1]
+
 	# find price
 	seivedSpan =soup.find_all('span', attrs={'id':'miniATF_price'})
 	if(len(seivedSpan) == 0):
@@ -42,8 +48,8 @@ def parse_amazon(html_text):
 		firstVal = (firstVal.split('$'))[1] # extract the numbers
 		mean = float(firstVal)
 		# return format = name, value, mean
-		# example: name, 43.00, 43.00		
-		return name + "," + firstVal + "," + firstVal
+		# example: name, image, 43.00, 43.00		
+		return name + "," +img + "," + firstVal + "," + firstVal
 
 	# range of prices
 	else:
@@ -53,9 +59,8 @@ def parse_amazon(html_text):
 		secondVal = (secondVal.split('$'))[1]
 		mean = (float(firstVal)+float(secondVal))/2.0
 		# return format = name, range, mean
-		# return example: name, 40.00 - 60.00, 50.00
-	    return name + "," + firstVal + "-" + secondVal + "," + mean
-
+		# return example: name, image, 40.00 - 60.00, 50.00
+	    	return name +"," + img "," + firstVal + "-" + secondVal + "," + mean
 
 
 #Input: HTML Text
@@ -64,10 +69,11 @@ def parse_amazon(html_text):
 def parse_ebay(html_text):
 	soup = BeautifulSoup(open("Untitled Document"))
 	span = soup.find_all('span', attrs={'id':'prcIsum'})[0]
-	name = soup.find_all('h1', attrs={'id':'itemTitle')[0]
+	name = soup.find_all('h1', attrs={'id':'itemTitle'})[0]
+	img = soup.findAll('img', {'id':'icImg'})[0]
 	if (len(name.contents) < 2 or len(span.contents) < 1):
 		return "error"
-	return name.contents[1] + "," + span.contents[0]
+	return name.contents[1] + "," img.get('src') + "," + span.contents[0] + "-" + span.contents[0] + "," + mean
 
 if __name__ == "__main__":
     if (len(sys.argv) < 2):
@@ -79,6 +85,7 @@ if __name__ == "__main__":
         for line in sys.stdin:
             html_array = line.split("|urldelimit|")
             data = parse(html_array[0], html_array[1])
+	    print(data)
             if (data == "error"):
                 continue
             else:
