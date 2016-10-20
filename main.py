@@ -60,7 +60,7 @@ def parse_amazon(html_text):
 		mean = (float(firstVal)+float(secondVal))/2.0
 		# return format = name, range, mean
 		# return example: name, image, 40.00 - 60.00, 50.00
-	    	return name +"," + img "," + firstVal + "-" + secondVal + "," + mean
+	    	return name +"," + img + "," + firstVal + "-" + secondVal + "," + mean
 
 
 #Input: HTML Text
@@ -73,7 +73,7 @@ def parse_ebay(html_text):
 	img = soup.findAll('img', {'id':'icImg'})[0]
 	if (len(name.contents) < 2 or len(span.contents) < 1):
 		return "error"
-	return name.contents[1] + "," img.get('src') + "," + span.contents[0] + "-" + span.contents[0] + "," + mean
+	return name.contents[1] + "," + img.get('src') + "," + span.contents[0] + "-" + span.contents[0] + "," + mean
 
 if __name__ == "__main__":
     if (len(sys.argv) < 2):
