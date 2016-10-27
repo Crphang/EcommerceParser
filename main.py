@@ -73,7 +73,26 @@ def parse_ebay(html_text):
 	img = soup.findAll('img', {'id':'icImg'})[0]
 	if (len(name.contents) < 2 or len(span.contents) < 1):
 		return "error"
-	return name.contents[1] + "," + img.get('src') + "," + span.contents[0] + "-" + span.contents[0] + "," + mean
+	return name.contents[1] + "," + img.get('src') + "," + span.contents[0] + "-" + span.contents[0] + "," + span.contents[0]
+
+#Input: HTML Text
+#Output: "url,name,price" (if successful)
+#        "error" (if fail) 
+def parse_aliexpress(html_text):
+	soup = BeautifulSoup(open("Untitled Document 3"))
+	tempPrice = soup.find_all('span', attrs={'itemprop':'lowPrice'})
+	if (len(tempPrice)== 0):
+		lowPrice = soup.find_all('span', attrs={'itemprop':'price'})[0]
+		highPrice = lowPrice			
+	else:
+		highPrice = soup.find_all('span', attrs={'itemprop':'highPrice'})[0]
+		lowPrice = tempPrice[0]
+	name = soup.find_all('h1', attrs={'itemprop':'name'})[0]
+	img = soup.findAll('img', {'alt':name.contents[0]})[0]
+	mean = (float(lowPrice.contents[0]) + float(highPrice.contents[0])) / 2.0
+	if (len(name.contents) < 1 or lowPrice.contents[0] < 0 or highPrice.contents[0] < 0):
+		print "error"
+	return name.contents[0] + "," + img.get('src') + "," + lowPrice.contents[0] + "-" + highPrice.contents[0] + "," + mean
 
 if __name__ == "__main__":
     if (len(sys.argv) < 2):
