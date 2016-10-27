@@ -62,6 +62,33 @@ def parse_amazon(html_text):
 		# return example: name, image, 40.00 - 60.00, 50.00
 	    	return name +"," + img + "," + firstVal + "-" + secondVal + "," + mean
 
+#Input: HTML Text
+#Output: "url,name,image,price,mean" (if successful)
+#        "error" (if fail)  
+
+#find title
+def parse_lazada(html_text):
+	seivedMeta = soup.find_all('title')
+	name = str(seivedMeta).split(">")[1]
+	name = name.split("|")[0].strip()
+
+#find image
+	seivedMeta = soup.find_all('meta', attrs={'itemprop':'image'})
+	lastMeta = None
+	for lastMeta in seivedMeta:pass
+	if lastMeta:
+		image = lastMeta
+	image = str(image).split("\"")[1]
+
+	#find price
+	seivedSpan = soup.find_all('span', attrs={'id':'special_price_box'})
+	if(len(seivedSpan) == 0):
+		print "error: no price found"
+	price = str(seivedSpan[0].contents[0])
+		
+	return name +"," + image + "," + price + "," + price
+
+
 
 #Input: HTML Text
 #Output: "url,name,price" (if successful)
