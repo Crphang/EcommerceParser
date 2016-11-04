@@ -102,6 +102,23 @@ def parse_ebay(html_text):
 		return "error"
 	return name.contents[1] + "," + img.get('src') + "," + span.contents[0] + "-" + span.contents[0] + "," + span.contents[0]
 
+
+#Input: HTML Text
+#Output: "url,name,price" (if successful)
+#        "error" (if fail) 
+def parse_zalora(html_text):
+	soup = BeautifulSoup(open("Untitled Document 10"))
+	discountPrice = soup.find_all('span', attrs={'class':'js-detail_updateSku_lowestPrice'})
+	if(len(discountPrice) < 1):
+		price = soup.find_all('span', attrs={'class':'value'})[0]	
+	else:
+		price = discountPrice[0].find_all('span', attrs={'class':'value'})[0]
+	name = soup.find_all('div', attrs={'itemprop':'name'})[0]
+	img = soup.find_all('img', attrs={'itemprop':'image'})[0]
+	if (len(name.contents) < 1):
+		print "error"
+	return name.contents[0] + "," + str(img.get('src')).split("ffffff)/")[1] + "," + str(price.contents[0]) + " - " + str(price.contents[0]) + "," + str(price.contents[0])
+
 #Input: HTML Text
 #Output: "url,name,price" (if successful)
 #        "error" (if fail) 
