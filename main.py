@@ -107,6 +107,7 @@ def parse_rakuten(html_text):
 	#find price
 	seivedPrice = soup.find_all('span', attrs={'id':'price_in_dollars'})
 	price = str(seivedPrice).split("\\n")[1].strip()
+	return name +"," + image + "," + price + "," + price
 
 
 
