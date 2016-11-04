@@ -105,6 +105,22 @@ def parse_ebay(html_text):
 #Input: HTML Text
 #Output: "url,name,price" (if successful)
 #        "error" (if fail) 
+def parse_carousell(html_text):
+	try:
+		soup = BeautifulSoup(open("Untitled Document"))
+		price = soup.find_all('meta', attrs={'property':'product:price:amount'})
+		name = soup.find_all('title', attrs={'data-react-helmet':'true'})[0]
+		#img = soup.find_all('div', attrs={'class':'swiper-wrapper'})
+		img = soup.find_all('img')
+		if (len(name.contents) < 1):
+			return "error"
+		return name.contents[0] + "," + img[0].get('data-layzr') + "," + str(price[0].get('content')) + " - " + str(price[0].get('content')) + "," + str(price[0].get('content'))
+	except:
+		return "error"
+
+#Input: HTML Text
+#Output: "url,name,price" (if successful)
+#        "error" (if fail) 
 def parse_aliexpress(html_text):
 	soup = BeautifulSoup(open("Untitled Document 3"))
 	tempPrice = soup.find_all('span', attrs={'itemprop':'lowPrice'})
