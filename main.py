@@ -72,7 +72,7 @@ def parse_lazada(html_text):
 	name = str(seivedMeta).split(">")[1]
 	name = name.split("|")[0].strip()
 
-#find image
+	#find image
 	seivedMeta = soup.find_all('meta', attrs={'itemprop':'image'})
 	lastMeta = None
 	for lastMeta in seivedMeta:pass
@@ -87,6 +87,26 @@ def parse_lazada(html_text):
 	price = str(seivedSpan[0].contents[0])
 		
 	return name +"," + image + "," + price + "," + price
+
+
+#Input: HTML Text
+#Output: "url,name,price" (if successful)
+#        "error" (if fail) 
+
+def parse_rakuten(html_text):
+	#find title
+	seivedTitle = soup.find_all('title')
+	name = str(seivedTitle).split(":")[1].strip()
+	name = name.split("<")[0]
+
+	#find image
+	seivedImage = soup.find_all('img', attrs={'id':'main_image'})
+	image = str(seivedImage).split("src=\"")[1]
+	image = image.split("\"")[0]
+	
+	#find price
+	seivedPrice = soup.find_all('span', attrs={'id':'price_in_dollars'})
+	price = str(seivedPrice).split("\\n")[1].strip()
 
 
 
